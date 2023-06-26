@@ -17,15 +17,7 @@ GetAuthRepositories() {
     done
     shift $((OPTIND - 1))
     response=$(get_auth_repositories $api_url $api_key)
-    response_body=$(echo $response | awk -F" :curl_output:" '{print $1}')
-    curl_output=$(echo $response | awk -F" :curl_output:" '{print $2}')
-
-    if [[ $(echo $curl_output) -eq "http_response=200" ]]; then
-            echo $response_body | jq '.[].name'
-        else
-            echo "--- Error: $curl_output" >&2
-            exit 1
-    fi
+    process_response "$response"
 }
 
 GetProjects() {
@@ -43,15 +35,7 @@ GetProjects() {
     done
     shift $((OPTIND - 1))
     response=$(get_projects $api_url $api_key)
-    response_body=$(echo $response | awk -F" :curl_output:" '{print $1}')
-    curl_output=$(echo $response | awk -F" :curl_output:" '{print $2}')
-
-    if [[ $(echo $curl_output) -eq "http_response=200" ]]; then
-            echo $response_body | jq '.[].name'
-        else
-            echo "--- Error: $curl_output" >&2
-            exit 1
-    fi
+    process_response "$response"
 }
 
 GetRepositories() {
@@ -72,9 +56,12 @@ GetRepositories() {
     done
     shift $((OPTIND - 1))
     response=$(get_repositories $api_url $api_key $project_name)
-    response_body=$(echo $response | awk -F" :curl_output:" '{print $1}')
-    curl_output=$(echo $response | awk -F" :curl_output:" '{print $2}')
+    process_response "$response"
+}
 
+process_response() {
+  local response_body=$(echo $1 | awk -F":curl_output:" '{print $1}')
+  local curl_output=$(echo $1 | awk -F":curl_output:" '{print $2}')
     if [[ $(echo $curl_output) -eq "http_response=200" ]]; then
             echo $response_body | jq '.[].name'
         else
