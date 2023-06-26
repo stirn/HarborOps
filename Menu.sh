@@ -6,6 +6,7 @@ PrintHelp() {
     echo "  GetAuthRepositories             List all authorized repositories"
     echo "  GetProjects                     Returns projects created by Harbor"
     echo "  GetRepositories                 List repositories of the specified project"
+    echo "  GetArtifacts                    List artifacts under the specific project and repository"
     echo ""
     echo "Command Options:"
     echo "  Mandatory keys:"
@@ -21,6 +22,11 @@ PrintHelp() {
     echo "  GetRepositories:"
     echo "      -p                  The name of the project"
     echo ""
+    echo "  GetArtifacts:"
+    echo "      -p                  The name of the project"
+    echo "      -r                  The name of the repository"
+    echo ""
+    
     # ...to be continued
 }
 
@@ -36,6 +42,10 @@ case $1 in
     GetRepositories)
         shift
         GetRepositories "$@"
+        ;;
+    GetArtifacts)
+        shift
+        GetArtifacts "$@"
         ;;
     *)
         echo "Invalid option: $1"

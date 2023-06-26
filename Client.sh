@@ -59,11 +59,36 @@ GetRepositories() {
     process_response "$response"
 }
 
+GetArtifacts() {
+      while getopts "u:k:p:r:" opt; do
+        case $opt in
+            u)
+                local api_url="http://"${OPTARG}
+                ;;
+            k)
+                local api_key=$OPTARG
+                ;;
+            p)
+                local project_name=$OPTARG
+                ;;
+            r)
+                local repository_name=$OPTARG
+                ;;
+            *)
+                ;;
+        esac
+    done
+    shift $((OPTIND - 1))
+    response=$(get_artifacts $api_url $api_key $project_name $repository_name)
+    process_response "$response"
+    # jq '.[].addition_links.vulnerabilities.href' - to read vulnerabilities links
+}
+
 process_response() {
   local response_body=$(echo $1 | awk -F":curl_output:" '{print $1}')
   local curl_output=$(echo $1 | awk -F":curl_output:" '{print $2}')
     if [[ $(echo $curl_output) -eq "http_response=200" ]]; then
-            echo $response_body | jq '.[].name'
+            echo $response_body
         else
             echo "--- Error: $curl_output" >&2
             exit 1
