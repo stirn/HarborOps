@@ -88,7 +88,7 @@ process_response() {
   local response_body=$(echo $1 | awk -F":curl_output:" '{print $1}')
   local curl_output=$(echo $1 | awk -F":curl_output:" '{print $2}')
     if [[ $(echo $curl_output) -eq "http_response=200" ]]; then
-            echo $response_body
+            echo "$response_body"
         else
             echo "--- Error: $curl_output" >&2
             exit 1
