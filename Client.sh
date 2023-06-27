@@ -2,7 +2,28 @@
 
 source $(dirname $(realpath $0))/HarborApi.sh
 
-GetAuthRepositories() {
+Get () {
+      while getopts "u:k:l:" opt; do
+        case $opt in
+            u)
+                local api_url="http://"${OPTARG}
+                ;;
+            k)
+                local api_key=$OPTARG
+                ;;
+            l)
+                local api_path=$OPTARG
+                ;;
+            *)
+                ;;
+        esac
+    done
+    shift $((OPTIND - 1))
+    response=$(get $api_url $api_key $api_path)
+    process_response "$response"
+}
+
+GetAuthRepositories () {
       while getopts "u:k:" opt; do
         case $opt in
             u)
@@ -20,7 +41,7 @@ GetAuthRepositories() {
     process_response "$response"
 }
 
-GetProjects() {
+GetProjects () {
       while getopts "u:k:" opt; do
         case $opt in
             u)
@@ -38,7 +59,7 @@ GetProjects() {
     process_response "$response"
 }
 
-GetRepositories() {
+GetRepositories () {
       while getopts "u:k:p:" opt; do
         case $opt in
             u)
@@ -59,7 +80,7 @@ GetRepositories() {
     process_response "$response"
 }
 
-GetArtifacts() {
+GetArtifacts () {
       while getopts "u:k:p:r:" opt; do
         case $opt in
             u)
@@ -84,7 +105,7 @@ GetArtifacts() {
     # jq '.[].addition_links.vulnerabilities.href' - to read vulnerabilities links
 }
 
-process_response() {
+process_response () {
   local response_body=$(echo $1 | awk -F":curl_output:" '{print $1}')
   local curl_output=$(echo $1 | awk -F":curl_output:" '{print $2}')
     if [[ $(echo $curl_output) -eq "http_response=200" ]]; then

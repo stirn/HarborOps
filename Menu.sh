@@ -3,6 +3,7 @@
 PrintHelp() {
     echo "Usage: $0 <Command> [options]"
     echo "Commands:"
+    echo "  Get                             Make GET request by specified path"
     echo "  GetAuthRepositories             List all authorized repositories"
     echo "  GetProjects                     Returns projects created by Harbor"
     echo "  GetRepositories                 List repositories of the specified project"
@@ -12,6 +13,9 @@ PrintHelp() {
     echo "  Mandatory keys:"
     echo "      -u                  URL to connect to"
     echo "      -k                  API key to use"
+    echo ""
+    echo "  Get:"
+    echo "      -l                  Request path (without schema and domain)"
     echo ""
     echo "  GetAuthRepositories:"
     echo "                          No keys required"
@@ -31,6 +35,10 @@ PrintHelp() {
 }
 
 case $1 in
+    Get)
+        shift
+        Get "$@"
+        ;;
     GetAuthRepositories)
         shift
         GetAuthRepositories "$@"
