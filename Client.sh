@@ -21,7 +21,7 @@ Get () {
         esac
     done
     shift $((OPTIND - 1))
-    process_response "$(get $api_url $api_key $api_path)"
+    process_response "$(get $api_path)"
 }
 
 GetAuthRepositories () {
@@ -38,7 +38,7 @@ GetAuthRepositories () {
         esac
     done
     shift $((OPTIND - 1))
-    process_response "$(get_auth_repositories $api_url $api_key)"
+    process_response "$(get_auth_repositories)"
 }
 
 GetProjects () {
@@ -75,7 +75,7 @@ GetRepositories () {
         esac
     done
     shift $((OPTIND - 1))
-    process_response "$(get_repositories $api_url $api_key $project_name)"
+    process_response "$(get_repositories $project_name)"
 }
 
 GetArtifacts () {
@@ -98,7 +98,7 @@ GetArtifacts () {
         esac
     done
     shift $((OPTIND - 1))
-    process_response "$(get_artifacts $api_url $api_key $project_name $repository_name)"
+    process_response "$(get_artifacts $project_name $repository_name)"
 }
 
 process_response () {

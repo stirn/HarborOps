@@ -35,19 +35,19 @@ get_projects() {
 }
 
 get_repositories() {
-    local project_name="$3"
+    local project_name="$1"
     local path="/projects/$project_name/repositories"
     send_get_request "${api_url}${path}"
 }
 
 get_artifacts() {
-    local project_name="$3"
-    local repository_name="$4"
+    local project_name="$1"
+    local repository_name="$2"
     local path="/projects/$project_name/repositories/$repository_name/artifacts"
     send_get_request "${api_url}${path}"
 }
 
 get () {
-  local uri="$1/$3"
+  local uri="${api_url}/$1"
   send_get_request "$uri"
 }
