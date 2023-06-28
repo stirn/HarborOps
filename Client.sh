@@ -1,6 +1,7 @@
 #!/bin/bash
 
 source $(dirname $(realpath $0))/HarborApi.sh
+API_BASE_PATH="/api/v2.0"
 
 Get () {
       while getopts "u:k:l:" opt; do
@@ -27,7 +28,7 @@ GetAuthRepositories () {
       while getopts "u:k:" opt; do
         case $opt in
             u)
-                local api_url="http://"${OPTARG}
+                local api_url="http://"${OPTARG}$API_BASE_PATH
                 ;;
             k)
                 local api_key=$OPTARG
@@ -45,7 +46,7 @@ GetProjects () {
       while getopts "u:k:" opt; do
         case $opt in
             u)
-                local api_url="http://"${OPTARG}
+                local api_url="http://"${OPTARG}$API_BASE_PATH
                 ;;
             k)
                 local api_key=$OPTARG
@@ -63,7 +64,7 @@ GetRepositories () {
       while getopts "u:k:p:" opt; do
         case $opt in
             u)
-                local api_url="http://"${OPTARG}
+                local api_url="http://"${OPTARG}$API_BASE_PATH
                 ;;
             k)
                 local api_key=$OPTARG
@@ -84,7 +85,7 @@ GetArtifacts () {
       while getopts "u:k:p:r:" opt; do
         case $opt in
             u)
-                local api_url="http://"${OPTARG}
+                local api_url="http://"${OPTARG}$API_BASE_PATH
                 ;;
             k)
                 local api_key=$OPTARG

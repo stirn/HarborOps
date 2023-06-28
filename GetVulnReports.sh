@@ -17,7 +17,7 @@ ReadArtifacts () {
 
 ReadVulnReports () {
     for v in $vuln_reports_links; do
-        echo $(./Client.sh Get -u $1 -k $2 -l $v | jq '.[].generated_at')
+        echo $(./Client.sh Get -u $1 -k $2 -l $v)
     done
 }
 
