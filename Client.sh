@@ -1,6 +1,7 @@
 #!/bin/bash
 
 source $(dirname $(realpath $0))/HarborApi.sh
+
 API_BASE_PATH="/api/v2.0"
 
 Get () {
@@ -20,8 +21,7 @@ Get () {
         esac
     done
     shift $((OPTIND - 1))
-    response=$(get $api_url $api_key $api_path)
-    process_response "$response"
+    process_response "$(get $api_url $api_key $api_path)"
 }
 
 GetAuthRepositories () {
@@ -38,8 +38,7 @@ GetAuthRepositories () {
         esac
     done
     shift $((OPTIND - 1))
-    response=$(get_auth_repositories $api_url $api_key)
-    process_response "$response"
+    process_response "$(get_auth_repositories $api_url $api_key)"
 }
 
 GetProjects () {
@@ -56,8 +55,7 @@ GetProjects () {
         esac
     done
     shift $((OPTIND - 1))
-    response=$(get_projects $api_url $api_key)
-    process_response "$response"
+    process_response "$(get_projects)"
 }
 
 GetRepositories () {
@@ -77,8 +75,7 @@ GetRepositories () {
         esac
     done
     shift $((OPTIND - 1))
-    response=$(get_repositories $api_url $api_key $project_name)
-    process_response "$response"
+    process_response "$(get_repositories $api_url $api_key $project_name)"
 }
 
 GetArtifacts () {
@@ -101,9 +98,7 @@ GetArtifacts () {
         esac
     done
     shift $((OPTIND - 1))
-    response=$(get_artifacts $api_url $api_key $project_name $repository_name)
-    process_response "$response"
-    # jq '.[].addition_links.vulnerabilities.href' - to read vulnerabilities links
+    process_response "$(get_artifacts $api_url $api_key $project_name $repository_name)"
 }
 
 process_response () {
