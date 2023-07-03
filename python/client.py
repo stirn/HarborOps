@@ -4,6 +4,7 @@ import requests
 import argparse
 import logging
 import json
+from colorama import init, Fore, Style
 
 logging.basicConfig(level=logging.DEBUG)
 
@@ -146,7 +147,9 @@ if __name__ == "__main__":
         api_url = "http://" + args.u + API_BASE_PATH
         api_key = args.k
         response = get_projects(api_url, api_key)
-        print(json.dumps(response, indent=4))
+        json_resp = json.dumps(response, indent=4)
+        colorized_json = "\n".join(f"{Fore.CYAN}{line}{Style.RESET_ALL}" for line in json_resp.splitlines())
+        print(colorized_json)
     elif args.command == "GetRepositories":
         api_url = "http://" + args.u + API_BASE_PATH
         api_key = args.k
