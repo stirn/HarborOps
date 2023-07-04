@@ -51,6 +51,11 @@ def get_artifacts(api_url, api_key, project_name, repository_name):
     uri = api_url + path
     return send_get_request(uri, api_key)
 
+def get_vulnerabilities_addition(api_url, api_key, project_name, repository_name, tag):
+    path = f"/projects/{project_name}/repositories/{repository_name}/artifacts/{reference}/additions/vulnerabilities"
+    uri = api_url + path
+    return send_get_request(uri, api_key)
+
 
 def get(api_url, api_key, api_path):
     uri = f"{api_url}/{api_path}"
@@ -99,6 +104,11 @@ def print_help():
     print("      -p                  The name of the project")
     print("      -r                  The name of the repository")
     print("")
+    print("  GetVulnerabilitiesAddition:")
+    print("      -p                  The name of the project")
+    print("      -r                  The name of the repository")
+    print("      -t                  The reference of the artifact")
+    print("")
 
 
 if __name__ == "__main__":
@@ -128,6 +138,13 @@ if __name__ == "__main__":
     get_artifacts_parser.add_argument("-k", required=True, help="API key to use")
     get_artifacts_parser.add_argument("-p", required=True, help="The name of the project")
     get_artifacts_parser.add_argument("-r", required=True, help="The name of the repository")
+
+    get_vulnerabilities_addition_parser = subparsers.add_parser("GetVulnerabilitiesAddition")
+    get_vulnerabilities_addition_parser.add_argument("-u", required=True, help="URL to connect to")
+    get_vulnerabilities_addition_parser.add_argument("-k", required=True, help="API key to use")
+    get_vulnerabilities_addition_parser.add_argument("-p", required=True, help="The name of the project")
+    get_vulnerabilities_addition_parser.add_argument("-r", required=True, help="The name of the repository")
+    get_vulnerabilities_addition_parser.add_argument("-t", required=True, help="The reference of the artifact")
 
     args = parser.parse_args()
 
@@ -159,6 +176,14 @@ if __name__ == "__main__":
         project_name = args.p
         repository_name = args.r
         response = get_artifacts(api_url, api_key, project_name, repository_name)
+        print(json.dumps(response, indent=4))
+    elif args.command == "GetVulnerabilitiesAddition":
+        api_url = "http://" + args.u + API_BASE_PATH
+        api_key = args.k
+        project_name = args.p
+        repository_name = args.r
+        reference = args.t
+        response = get_vulnerabilities_addition(api_url, api_key, project_name, repository_name, reference)
         print(json.dumps(response, indent=4))
     else:
         print("Invalid option:", args.command)
